@@ -13,23 +13,8 @@ engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-def create_db():
-    """
-    Create database tables.
-    """
-    Base.metadata.create_all(bind=engine)
-    return None
+#ORM
 
+#Init DB
 
-def save_prediction(db: Session, request_id: str, input_data: dict, prediction: int):
-    """
-    Save a prediction record to the database.
-    """
-    # TODO: implement actual save logic
-    return {"id": 0, "request_id": request_id, "input_data": input_data, "prediction": prediction}
-
-
-
-"""
-db will be injected via main.
-"""
+#Save Prediction
