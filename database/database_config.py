@@ -12,6 +12,8 @@ class DatabaseConfig:
     password: str
     
     @property
-    def conenction_string(self) -> str:
-        return f"postgresql://{self.username}:{self.password}{self.host}:{self.port}/{self.database}"
-    
+    def connection_string(self) -> str:
+        return (
+            f"postgresql://{self.username}:{self.password}"
+            f"@{self.host}:{self.port}/{self.database}"
+        )

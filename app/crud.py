@@ -11,12 +11,13 @@ load_dotenv()
 def init_db():
     try:
         print("Initialize database ....")
+        
         connection_string = DatabaseConfig(
-            host='localhost',
-            port=5432,
-            database='loan_db',
-            username="loan_user",
-            password="loan_pass"
+            host=os.getenv("DB_HOST", '@localhost'),
+            port=os.getenv("DB_HOST", 5434),
+            database=os.getenv("DB_HOST", 'loan_postgres'),
+            username=os.getenv("DB_HOST", "bdpit4"),
+            password=os.getenv("DB_HOST", "Bcabca1")
         ).conenction_string
         
         # connection_string = DatabaseConfig(
