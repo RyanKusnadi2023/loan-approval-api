@@ -3,20 +3,21 @@ import uuid
 import logging
 from contextvars import ContextVar
 
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Response
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from pydantic import ValidationError
 
+from database.base import Base
 from .services import load_resources, preprocess_input, predict
 from .schemas import LoanApplication, validate_payload
+from .crud import init_db, create_db
 
 # ——— Context var to hold the request ID for the current execution context ———
 request_id_ctx: ContextVar[str] = ContextVar("request_id", default="N/A")
 
 # ——— Load env & resources ———
 load_dotenv()
-load_resources(logging.getLogger("loan_predictor"))
 
 # ——— Logging setup with filter that draws from our ContextVar ———
 class RequestIDFilter(logging.Filter):
@@ -37,6 +38,11 @@ logger.addHandler(handler)
 
 # ——— FastAPI app ———
 app = FastAPI()
+
+# Load resources like models, encoders, etc.
+load_resources(logging.getLogger("loan_predictor"))
+init_db()
+create_db()
 
 # ——— Middleware to generate & store a new request ID per incoming request ———
 @app.middleware("http")
