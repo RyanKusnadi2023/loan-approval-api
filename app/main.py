@@ -9,9 +9,9 @@ from sqlalchemy.orm import Session
 from dotenv import load_dotenv
 from pydantic import ValidationError
 
-from services import load_resources, preprocess_input, predict
+from .services import load_resources, preprocess_input, predict
 #from crud import SessionLocal, init_db, save_prediction
-from schemas import LoanApplication, validate_payload
+from .schemas import LoanApplication, validate_payload
 
 #Load environment variables and init components
 load_dotenv()
@@ -118,4 +118,4 @@ async def predict_endpoint(
 # Entry point for local development
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host=os.getenv("HOST", "0.0.0.0"), port=int(os.getenv("PORT", 8000)), log_level="info")
+    uvicorn.run(app, host=os.getenv("HOST", "127.0.0.1"), port=int(os.getenv("PORT", 8000)), log_level="info")
