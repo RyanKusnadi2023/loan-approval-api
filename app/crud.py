@@ -26,15 +26,30 @@ class Prediction(db.Model):
 """
 
 #Init DB - function buat init db, akan di call ryan di main
+def init_db():
+    return 0
 """
-db.create_all()
-"""
-#Save Prediction - function buat save prediction ke db
-"""
-db.session.add(new_prediction)
-      db.session.commit()
+def init_db():
+    Base.metadata.create_all(bind=engine)
 """
 
+
+#Save Prediction - function buat save prediction ke db
+def save_prediction():
+    return 0
+
+"""
+def save_prediction(db, request_id: str, input_data: dict, prediction_result: int):
+    db_pred = Prediction(
+        request_id=request_id,
+        input_data=input_data,
+        prediction_result=prediction_result
+    )
+    db.add(db_pred)
+    db.commit()
+    db.refresh(db_pred)
+    return db_pred
+"""
 
 """
 Contoh hasil vibe coding
