@@ -12,12 +12,20 @@ def init_db():
     try:
         print("Initialize database ....")
         connection_string = DatabaseConfig(
-            host='@localhost',
+            host='localhost',
             port=5432,
-            database='loan_postgres',
-            username="bdpit4",
-            password="Bcabca1"
+            database='loan_db',
+            username="loan_user",
+            password="loan_pass"
         ).conenction_string
+        
+        # connection_string = DatabaseConfig(
+        #     host=os.getenv("DB_HOST", '@localhost'),
+        #     port=os.getenv("DB_PORT", 5432),
+        #     database=os.getenv("DB_NAME", 'loan_postgres'),
+        #     username=os.getenv("DB_USER", "bdpit4"),
+        #     password=os.getenv("DB_PASSWORD", "Bcabca1")
+        # ).conenction_string
 
         print(f">>>> connection string: {connection_string}")
         
