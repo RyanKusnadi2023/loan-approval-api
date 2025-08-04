@@ -63,7 +63,7 @@ def health_check():
 # Prediction endpoint
 @app.post("/predict")
 async def predict_endpoint(
-    input_data: dict,
+    input_data: LoanApplication,
     request: Request
     #, db: Session = Depends(get_db)
 ) -> JSONResponse:
