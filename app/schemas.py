@@ -26,7 +26,8 @@ class LoanApplication(BaseModel):
     credit_score: int = Field(..., ge=0)
     previous_loan_defaults_on_file: Literal["Yes", "No"]
 
-def validate_payload(payload: Dict[str, Any]) -> Tuple[bool, Optional[Dict[str, Any]]]:
+
+def validate_payload(payload: Dict[str, Any], logger) -> Tuple[bool, Optional[Dict[str, Any]]]:
     """
 	Checks if the given input data follows the rules defined in the LoanApplication model.
 
@@ -42,6 +43,14 @@ def validate_payload(payload: Dict[str, Any]) -> Tuple[bool, Optional[Dict[str, 
     """
     try:
         LoanApplication(**payload)
+        logger.info("Payload validated successfully.")
         return True, None
+
     except ValidationError as e:
+        logger.warning("Payload validation failed. Errors: %s", e.errors())
         return False, e.errors()
+
+    except Exception as e:
+        logger.exception("Unexpected error during payload validation.")
+        return False, {"error": str(e)}
+    
