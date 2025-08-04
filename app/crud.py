@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, Session
 from database.database_config import DatabaseConfig
-from database import base  # ✅ import module, not individual variables
+from database import base
 from database.models import User, Loan
 
 load_dotenv()
