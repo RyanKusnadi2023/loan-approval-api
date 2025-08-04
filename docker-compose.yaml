@@ -1,6 +1,21 @@
 version: '3.8'
 
 services:
+  loan_app:
+    build: .
+    container_name: loan_app
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: loan_postgres
+      DB_USER: bdpit4
+      DB_PASSWORD: Bcabca1
+    depends_on:
+      - loan_postgres
+    networks:
+      - loan_network
   loan_postgres:
     container_name: loan_postgres
     image: postgres:15
