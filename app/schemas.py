@@ -42,6 +42,13 @@ def validate_payload(payload: Dict[str, Any]) -> Tuple[bool, Optional[Dict[str, 
     """
     try:
         LoanApplication(**payload)
+        logger.info("Payload validated successfully.")
         return True, None
+
     except ValidationError as e:
+        logger.warning("Payload validation failed. Errors: %s", e.errors())
         return False, e.errors()
+
+    except Exception as e:
+        logger.exception("Unexpected error during payload validation.")
+        return False, {"error": str(e)}
