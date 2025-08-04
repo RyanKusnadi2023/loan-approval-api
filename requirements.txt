@@ -1,0 +1,6 @@
+deepface==0.0.94
+fastapi
+uvicorn[standard]
+sqlalchemy
+psycopg2-binary
+python-dotenv
