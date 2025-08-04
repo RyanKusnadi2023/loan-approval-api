@@ -5,7 +5,7 @@ services:
     container_name: loan_postgres
     image: postgres:15
     environment:
-      - POSTGRES_DB=${POSTGRES_DB:-db_loan}
+      - POSTGRES_DB=${POSTGRES_DB:-loan_postgres}
       - POSTGRES_USER=${POSTGRES_USER:-bdpit4}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-Bcabca1}
     ports:
