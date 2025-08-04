@@ -66,10 +66,10 @@ async def predict_endpoint(input_data: LoanApplication, request: Request) -> JSO
     logger.info("Prediction request received")
     try:
         # Payload validation
-        validate_payload(input_data.dict(), logger)
+        validate_payload(input_data.model_dump(), logger)
 
         # Preprocess & predict
-        df = preprocess_input(input_data.dict(), logger)
+        df = preprocess_input(input_data.model_dump(), logger)
 
         result = predict(df, logger)
         prediction = int(result["prediction"])
