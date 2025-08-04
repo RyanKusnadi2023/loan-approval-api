@@ -1,6 +1,7 @@
 import joblib
 import yaml
 import pandas as pd
+import logging 
 
 # Define global variables
 model: object = None
@@ -12,7 +13,7 @@ education_order: dict[str, int] = {}
 home_ownership_options: list[str] = []
 loan_intent_options: list[str] = []
 
-def load_resources(logger: logging.Logger = logger) -> None:
+def load_resources(logger: logging.Logger) -> None:
     """
     Loads model, scaler, features, and configuration.
     """
@@ -61,10 +62,7 @@ def load_resources(logger: logging.Logger = logger) -> None:
         logger.exception("Unexpected error while loading configuration.")
         raise
 
-# Load at import time
-load_resources(logger)
-
-def preprocess_input(input_data: dict, logger: logging.Logger = logger) -> pd.DataFrame:
+def preprocess_input(input_data: dict, logger: logging.Logger) -> pd.DataFrame:
     """
     Converts raw user input into a DataFrame suitable for prediction.
     """
@@ -117,7 +115,7 @@ def preprocess_input(input_data: dict, logger: logging.Logger = logger) -> pd.Da
     logger.info("Input data preprocessed successfully.")
     return df
 
-def predict(df: pd.DataFrame, logger: logging.Logger = logger) -> dict[str, float | int]:
+def predict(df: pd.DataFrame, logger: logging.Logger) -> dict[str, float | int]:
     """
     Scales and predicts using the preloaded model.
     """
