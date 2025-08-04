@@ -16,6 +16,32 @@ services:
     networks:
       - loan_network
 
+  loan_api:
+    container_name: loan_api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: loan_api:latest
+    restart: always
+    depends_on:
+      - loan_postgres
+    environment:
+      # Point the app at the Postgres service by its Docker network name
+      DB_HOST: loan_postgres
+      DB_PORT: 5432
+      DB_NAME: loan_postgres
+      DB_USER: bdpit4
+      DB_PASSWORD: Bcabca1
+    volumes:
+      - ./:/app   # mount your code into the container for hot‐reload
+    ports:
+      - "8000:8000"
+    command: >
+      uvicorn app.main:app
+      --host 0.0.0.0
+      --port 8000
+      --reload
+
 volumes:
   postgres_data:
 
