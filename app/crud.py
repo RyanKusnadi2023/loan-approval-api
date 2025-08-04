@@ -13,12 +13,12 @@ def init_db():
         print("Initialize database ....")
         
         connection_string = DatabaseConfig(
-            host=os.getenv("DB_HOST", '@localhost'),
-            port=os.getenv("DB_HOST", 5434),
-            database=os.getenv("DB_HOST", 'loan_postgres'),
-            username=os.getenv("DB_HOST", "bdpit4"),
-            password=os.getenv("DB_HOST", "Bcabca1")
-        ).conenction_string
+            host="localhost",
+            port=5432,
+            database="loan_postgres",
+            username="bdpit4",
+            password="Bcabca1"
+        ).connection_string
         
         # connection_string = DatabaseConfig(
         #     host=os.getenv("DB_HOST", '@localhost'),
@@ -80,8 +80,8 @@ def save_prediction(
     cb_person_cred_hist_length: float,
     credit_score: int,
     previous_loan_defaults_on_file: str,
-    prediction: int,
-    confidence: float
+    loan_status: int,
+    confidence: str
 ) -> str:
     err_msg = []
     
@@ -100,9 +100,6 @@ def save_prediction(
     if len(err_msg) > 0:
         return "\n".join(err_msg)
     
-    loan_status_string = "approve" if prediction == 1  else "" 
-    
-    
     user = User(
         age=person_age,
         gender=person_gender,
@@ -119,7 +116,7 @@ def save_prediction(
                 cred_history_yearly=cb_person_cred_hist_length,
                 prev_loan_def=previous_loan_defaults_on_file,
                 credit_score=credit_score,
-                loan_status = loan_status_string,
+                loan_status = loan_status,
                 confidence=confidence
             )
         ]
@@ -128,4 +125,4 @@ def save_prediction(
     db.add(user)
     db.commit()
     
-    return f"success create user : {user}"
+    return f"success: to create user {user}"
