@@ -1,0 +1,27 @@
+gender_map:
+  female: 0
+  male: 1
+
+default_map:
+  No: 0
+  Yes: 1
+
+education_order:
+  High School: 1
+  Associate: 2
+  Bachelor: 3
+  Master: 4
+  Doctorate: 5
+
+home_ownership_options:
+  - RENT
+  - OWN
+  - MORTGAGE
+  - OTHER
+
+loan_intent_options:
+  - PERSONAL
+  - EDUCATION
+  - MEDICAL
+  - VENTURE
+  - HOMEIMPROVEMENT
