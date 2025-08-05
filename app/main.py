@@ -11,7 +11,7 @@ from pydantic import ValidationError
 from database import base
 from .services import load_resources, preprocess_input, predict
 from .schemas import LoanApplication, validate_payload
-from .crud import init_db, create_db, save_prediction
+from .crud import init_db, create_db, save_prediction, insert_loan_predict_log
 
 # ——— Context var to hold the request ID for the current execution context ———
 request_id_ctx: ContextVar[str] = ContextVar("request_id", default="N/A")
@@ -133,25 +133,32 @@ async def predict_endpoint(input_data: LoanApplication, request: Request) -> JSO
         
         db = base.SessionLocal()
         
-        print(f"TESETINGGGG : {input_data.person_age}")
+        # person_age= input_data.person_age,
+        # person_gender= input_data.person_gender,
+        # person_education=input_data.person_education,
+        # person_income=input_data.person_income,
+        # person_emp_exp=input_data.person_emp_exp,
+        # person_home_ownership=input_data.person_home_ownership,
+        # loan_amnt=input_data.loan_amnt,
+        # loan_intent=input_data.loan_intent,
+        # loan_int_rate=input_data.loan_int_rate,
+        # loan_percent_income=input_data.loan_percent_income,
+        # cb_person_cred_hist_length=input_data.cb_person_cred_hist_length,
+        # credit_score=input_data.credit_score,
+        # previous_loan_defaults_on_file= input_data.previous_loan_defaults_on_file,
+        # loan_status=status,
+        # confidence=confidence
+            
         user = save_prediction(
             db,
-            person_age= input_data.person_age,
-            person_gender= input_data.person_gender,
-            person_education=input_data.person_education,
-            person_income=input_data.person_income,
-            person_emp_exp=input_data.person_emp_exp,
-            person_home_ownership=input_data.person_home_ownership,
-            loan_amnt=input_data.loan_amnt,
-            loan_intent=input_data.loan_intent,
-            loan_int_rate=input_data.loan_int_rate,
-            loan_percent_income=input_data.loan_percent_income,
-            cb_person_cred_hist_length=input_data.cb_person_cred_hist_length,
-            credit_score=input_data.credit_score,
-            previous_loan_defaults_on_file= input_data.previous_loan_defaults_on_file,
-            loan_status=status,
-            confidence=confidence
+            input_data,
+            status,
+            confidence,
+            request_id_ctx.get()
         )
+        
+        print(f">>>>>>>>> USER :: {user}")
+
         
         return JSONResponse(
             status_code=200,
@@ -164,6 +171,7 @@ async def predict_endpoint(input_data: LoanApplication, request: Request) -> JSO
 
     except ValueError as ve:
         logger.error("Value error in prediction pipeline: %s", ve)
+        
         raise HTTPException(
             status_code=400,
             detail={"error": str(ve), "status": "Error"}
