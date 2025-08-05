@@ -95,19 +95,6 @@ def save_prediction(
         "err_msg": []
     }
     
-    # if str.lower(person_gender) not in ['female', 'male']:
-    #     err_msg.append(f"Error: person_age -> {person_age} expected -> male/female")
-    
-    # if str.lower(person_education.replace(" ", "")) not in ['highschool', 'associate', 'bachelor', 'master', 'doctorate']:
-    #     err_msg.append(f"Error: person_education -> {person_age} expected -> High School/Associate/Bachelor/Master/Doctorate")
-    
-    # if str.lower(person_home_ownership.replace(" ", "")) not in ['rent', 'own', 'mortgage', 'other']:
-    #     err_msg.append(f"Error: person_home_ownership -> {person_age} expected -> RENT/OWN/MORTGAGE/OTHER")
-        
-    # if str.lower(loan_intent.replace(" ", "")) not in ['personal', 'education', 'medical', 'venture', 'homeimprovement']:
-    #     err_msg.append(f"Error: person_home_ownership -> {person_age} expected -> PERSONAL/EDUCATION/MEDICAL/VENTURE/HOMEIMPROVEMENT")
-    
-    print(f">>> pgnder: {input_data}")
     try:
         if not Validation(input_data.person_gender).person_gender:
             result["err_msg"].append(f"Error: person_age -> {input_data.person_gender} expected -> male/female")
@@ -139,32 +126,6 @@ def save_prediction(
         return result
     
     try:
-        # user = User(
-            # age=input_data.person_age,
-            # gender=input_data.person_gender,
-            # education=input_data.person_education,
-            # income=input_data.person_income,
-            # employ_expereience=input_data.person_emp_exp,
-            # home_ownership=input_data.person_home_ownership,
-            # create_by=request_id,
-            # update_by=request_id,
-        #     loans = [
-        #         Loan(
-        #             amount=input_data.loan_amnt,
-        #             intent=input_data.loan_intent,
-        #             interest_rate=input_data.loan_int_rate,
-        #             percent_income=input_data.loan_percent_income,
-        #             cred_history_yearly=input_data.cb_person_cred_hist_length,
-        #             prev_loan_def=input_data.previous_loan_defaults_on_file,
-        #             credit_score=input_data.credit_score,
-        #             loan_status = loan_status,
-        #             confidence=confidence,
-        #             create_by=request_id,
-        #             update_by=request_id,
-        #         )
-        #     ]
-        # )
-        
         loan = Loan(
             amount=input_data.loan_amnt,
             intent=input_data.loan_intent,
@@ -192,7 +153,6 @@ def save_prediction(
         db.add(loan)
         db.commit()
         
-        print(f">>>>>>>>> in db {loan.id}")
         
         insert_loan_predict_log(
             db,
