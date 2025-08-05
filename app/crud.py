@@ -13,7 +13,7 @@ def init_db():
         print("Initialize database ....")
         
         connection_string = DatabaseConfig(
-            host="localhost",
+            host=os.getenv("DB_HOST", '@localhost'),
             port=5432,
             database="loan_postgres",
             username="bdpit4",

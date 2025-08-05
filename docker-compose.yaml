@@ -11,6 +11,7 @@ services:
       POSTGRES_PASSWORD: Bcabca1
     ports:
       - "5432:5432"
+    command: postgres -c listen_addresses='*'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -26,14 +27,13 @@ services:
     depends_on:
       - loan_postgres
     environment:
-      # Point the app at the Postgres service by its Docker network name
       DB_HOST: loan_postgres
       DB_PORT: 5432
       DB_NAME: loan_postgres
       DB_USER: bdpit4
       DB_PASSWORD: Bcabca1
     volumes:
-      - ./:/app   # mount your code into the container for hot‐reload
+      - ./:/app
     ports:
       - "8000:8000"
     command: >
@@ -41,6 +41,8 @@ services:
       --host 0.0.0.0
       --port 8000
       --reload
+    networks:
+      - loan_network
 
 volumes:
   postgres_data:
